@@ -1,1 +1,1 @@
-# AWS_Training
+For CICD Project, Switch branch to cicd.
