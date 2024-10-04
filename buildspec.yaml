@@ -1,9 +1,10 @@
 version: 0.2
 
-env:
-  variables:
-    ECR_URI: "565393046063.dkr.ecr.ap-south-1.amazonaws.com/aws-training"
-    IMAGE_TAG: "aws-demo-ecs"
+# env:
+#   variables:
+#     ECR_URI: "565393046063.dkr.ecr.ap-south-1.amazonaws.com/aws-training"
+#     IMAGE_TAG: "aws-demo-ecs"
+#     CONTAINER_NAME: "ecs"
 
 phases:
   pre_build:
@@ -21,10 +22,13 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $ECR_URI:$IMAGE_TAG
-      - echo Writing imageDetail file...
-      - printf '{"ImageURI":"%s"}' $ECR_URI:$IMAGE_TAG > imageDetail.json
+      - echo Writing imagedefinitions file...
+     # - printf '{"ImageURI":"%s"}' $ECR_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $ECR_URI:$IMAGE_TAG > imagedefinitions.json
+
 artifacts:
   files:
-    - imageDetail.json
+ #   - imageDetail.json
     - appspec.yaml
-    - taskdef.json
+ #   - taskdef.json
+    - imagedefinitions.json
